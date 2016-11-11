@@ -197,8 +197,8 @@
 
 				// Touch fallback
 				if (settings.touch) {
-					$source
-						.on('touchstart.zoom', function (e) {
+					if (settings.on !== 'click'){ //added by sseiz to improve page scrolling possibilities
+						$source.on('touchstart.zoom', function (e) {
 							e.preventDefault();
 							if (touched) {
 								touched = false;
@@ -208,17 +208,22 @@
 								start( e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] );
 							}
 						})
-						.on('touchmove.zoom', function (e) {
+					}
+					$source.on('touchmove.zoom', function (e) {
+						if (clicked) {
 							e.preventDefault();
-							zoom.move( e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] );
-						})
-						.on('touchend.zoom', function (e) {
+						}
+						zoom.move( e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] );
+					})
+					if (settings.on !== 'click'){	//added by sseiz to improve page scrolling possibilities
+						$source.on('touchend.zoom', function (e) {
 							e.preventDefault();
 							if (touched) {
 								touched = false;
 								stop();
 							}
 						});
+					}
 				}
 				
 				if ($.isFunction(settings.callback)) {
