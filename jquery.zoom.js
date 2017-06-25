@@ -212,8 +212,8 @@
 					$source.on('touchmove.zoom', function (e) {
 						if (clicked) {
 							e.preventDefault();
+							zoom.move( e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] );
 						}
-						zoom.move( e.originalEvent.touches[0] || e.originalEvent.changedTouches[0] );
 					})
 					if (settings.on !== 'click'){	//added by sseiz to improve page scrolling possibilities
 						$source.on('touchend.zoom', function (e) {
@@ -225,7 +225,7 @@
 						});
 					}
 				}
-				
+
 				if ($.isFunction(settings.callback)) {
 					settings.callback.call(img);
 				}
